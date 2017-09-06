@@ -1,43 +1,83 @@
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Text, View} from 'react-native';
-import {StackNavigator} from 'react-navigation';
-import {SplashScreen} from 'react-native-splash-screen'
+import {
+    StyleSheet,
+    View,
+    Text,
+    TouchableOpacity,
+    Linking,
+    AppRegistry,
+} from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
 
+export default class KakaSearch extends Component {
 
-class HomeScreen extends Component {
-    static navigationOptions = {
-        title: 'Welcome',
+    constructor(props) {
+        super(props);
+        this.state = {
+            first: true,
+        };
     };
 
     componentDidMount() {
-        SplashScreen.hide();
+        if (this.state.first) {
+            this.timer = setTimeout(
+                () => {
+                    SplashScreen.hide();
+                    this.setState({first: false});
+                },
+                2000,
+            );
+        } else {
+            SplashScreen.hide();
+        }
     };
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.instructions}>
-                    home screen
-                </Text>
-            </View>
-        );
+            <TouchableOpacity
+                style={styles.container}
+                onPress={(e)=> {
+                    Linking.openURL('http://www.devio.org/');
+                }}
+            >
+                <View >
+                    <Text style={styles.item}>
+                        SplashScreen 启动屏
+                    </Text>
+                    <Text style={styles.item}>
+                        @：http://www.devio.org/
+                    </Text>
+                    <Text style={styles.item}>
+                        GitHub:https://github.com/crazycodeboy
+                    </Text>
+                    <Text style={styles.item}>
+                        Email:crazycodeboy@gmail.com
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        )
     }
+
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        backgroundColor: '#f3f2f2',
+        marginTop: 30
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+    item: {
+        fontSize: 20,
     },
-});
-
-const KakaSearch = StackNavigator({
-    Home: {screen: HomeScreen},
+    line: {
+        flex: 1,
+        height: 0.3,
+        backgroundColor: 'darkgray',
+    },
 });
 
 AppRegistry.registerComponent('KakaSearch', () => KakaSearch);
