@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import {AppRegistry, StyleSheet, Text, View} from 'react-native';
 import {StackNavigator} from 'react-navigation';
+import {SplashScreen} from 'react-native-splash-screen'
 
 
 class HomeScreen extends Component {
     static navigationOptions = {
         title: 'Welcome',
+    };
+
+    componentDidMount() {
+        SplashScreen.hide();
     };
 
     render() {
